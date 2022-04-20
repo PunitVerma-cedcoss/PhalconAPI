@@ -8,13 +8,14 @@ use Firebase\JWT\Key;
 
 class JwtComponent
 {
-    public function getJwtToken()
+    public function getJwtToken($role = "guest")
     {
         $now = new DateTime();
         $key = "example_key";
         $payload = array(
             "iss" => "http://example.org",
             "aud" => "http://example.com",
+            "role" => "guest",
             "iat" => $now->getTimestamp(),
             "nbf" => $now->modify('-1 minute')->getTimestamp(),
             "exp" => $now->modify('+1 hour')->getTimestamp()

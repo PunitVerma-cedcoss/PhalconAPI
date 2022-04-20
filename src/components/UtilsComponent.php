@@ -5,6 +5,7 @@ namespace Api\Component;
 use Phalcon\Di\Injectable;
 use Phalcon\Http\Response;
 
+
 class UtilsComponent extends Injectable
 {
     public function prepareProjection($data)
@@ -44,10 +45,10 @@ class UtilsComponent extends Injectable
                 return true;
             } else {
                 $response = new Response();
-                $response->setStatusCode(200, 'OK')
+                $response->setStatusCode(403, 'Bad REQUEST')
                     ->setJsonContent(
                         [
-                            'status' => 200,
+                            'status' => 403,
                             'bearer' => $resp
                         ],
                         JSON_PRETTY_PRINT
