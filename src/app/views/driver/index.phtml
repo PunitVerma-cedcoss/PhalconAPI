@@ -1,0 +1,56 @@
+<style>
+    * {
+        transition: 0.3 all ease;
+    }
+</style>
+<div class="w-screen h-screen relative">
+    <div class="enter-token bg-gray-100 w-screen h-screen flex justify-center items-center absolute">
+        <div class="border rounded-lg shadow-lg">
+            <input type="text" name="" id="token" class="border-0 focus:scale-125 rounded-l-lg focus:ring-0 getToken" placeholder="enter token here">
+            <button class="hover:bg-rose-600 cursor-pointer bg-rose-500 py-2 border border-rose-500 px-3 text-white m-0 rounded-r-lg setToken">Set</button>
+        </div>
+    </div>
+    <div class="hidden add-order bg-gray-100 w-screen h-screen absolute flex flex-col items-center justify-center">
+        <form action="#" method="post" class="bg-white p-3 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <label for="name" class="my-2">
+                <input type="text" name="name" id="name" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter name" required>
+            </label>
+            <label for="productId" class="my-2">
+                <input type="text" name="productId" id="productId" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full focus:outline-0" placeholder="enter productId" required>
+            </label>
+            <label for="varient" class="my-2">
+                <input type="text" name="varient" id="varient" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter varient" required>
+            </label>
+            <label for="btn" class="my-2 w-full">
+                <input type="submit" name="btn" id="btn" class="p-2 w-full border-0 text-white bg-rose-500 shadow-lg rounded-full addOrder cursor-pointer hover:bg-rose-600">
+            </label>
+        </form>
+    </div>
+    <div class="view-order w-screen h-screen flex flex-col items-center justify-center absolute hidden bg-gray-100">
+    </div>
+    <div class="update-order w-screen h-screen flex flex-col items-center justify-center absolute hidden bg-gray-100">
+        <form action="#" method="post" class="bg-white p-3 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <label for="name" class="my-2">
+                <input type="text" name="name" id="updateName" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter name" required>
+            </label>
+            <label for="productId" class="my-2">
+                <input type="text" name="productId" id="updateProductId" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full focus:outline-0" placeholder="enter productId" required>
+            </label>
+            <label for="varient" class="my-2">
+                <input type="text" name="varient" id="updateVarient" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter varient" required>
+            </label>
+            <label for="btn" class="my-2 w-full">
+                <input type="submit" value="update" name="btn" id="btn" class="p-2 w-full border-0 text-white bg-rose-500 shadow-lg rounded-full updateOrder cursor-pointer hover:bg-rose-600">
+            </label>
+        </form>
+    </div>
+</div>
+<div class="noti fixed m-3 bottom-0 right-0">
+    <div class="nav fixed top-0 right-0 m-4">
+        <button class="viewTab bg-rose-500 m-2 p-2 rounded-lg text-white shadow-lg">Add orders</button>
+        <button class="addTab bg-rose-500 m-2 p-2 rounded-lg text-white shadow-lg">View order</button>
+    </div>
+</div>
+<?php
+$this->assets->outputJs();
+?>

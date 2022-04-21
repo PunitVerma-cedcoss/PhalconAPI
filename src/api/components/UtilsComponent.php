@@ -77,7 +77,7 @@ class UtilsComponent extends Injectable
                         ->setJsonContent(
                             [
                                 'status' => 401,
-                                'error' => 'not Authorized'
+                                'msg' => 'not Authorized'
                             ],
                             JSON_PRETTY_PRINT
                         );
@@ -91,7 +91,7 @@ class UtilsComponent extends Injectable
                     ->setJsonContent(
                         [
                             'status' => 403,
-                            'bearer' => $resp["msg"]
+                            'msg' => $resp["msg"]
                         ],
                         JSON_PRETTY_PRINT
                     );
@@ -105,7 +105,7 @@ class UtilsComponent extends Injectable
                 ->setJsonContent(
                     [
                         'status' => 200,
-                        'bearer' => 'please provie bearear token at header'
+                        'msg' => 'please provie bearear token at header'
                     ],
                     JSON_PRETTY_PRINT
                 );

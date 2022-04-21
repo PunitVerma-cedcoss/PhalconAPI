@@ -9,11 +9,10 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Acl\Adapter\Memory;
 
 // requiring vendor autoload 🍫
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/storage');
-
 //setting container
 $container = new FactoryDefault();
 
@@ -52,7 +51,7 @@ $jwt = new \Api\Component\JwtComponent();
 
 // home route
 $app->get(
-    '/',
+    '/api',
     function () {
         return '
         😎 Api is up and running 😎
@@ -80,7 +79,7 @@ $app->get(
 );
 
 $app->get(
-    '/products/get',
+    '/api/products/get',
     function () use ($mongo, $util) {
         $formData = $this->request->getQuery();
         $per_page = isset($formData['per_page']) ? (int) $formData['per_page'] : 0;
@@ -130,7 +129,7 @@ $app->get(
 
 
 $app->get(
-    '/products/search/{name}',
+    '/api/products/search/{name}',
     function ($name) use ($mongo, $util) {
         $req = explode(" ", urldecode($name));
         if (count($req) == 2) {
@@ -185,7 +184,7 @@ $app->get(
 );
 
 $app->get(
-    '/auth/token',
+    'api/auth/token',
     function () use ($jwt) {
         $role = $this->request->getQuery()["role"] ?? "guest";
         $response = new Response();
@@ -206,7 +205,7 @@ $app->get(
 
 // orders routes------------------------->> 
 $app->post(
-    '/order/create',
+    '/api/order/create',
     function () use ($mongo, $util) {
         $rawData = $this->request->getJsonRawBody();
         $resp = $util->prepareOrder(json_decode(json_encode($rawData), true));
@@ -238,7 +237,7 @@ $app->post(
 );
 
 $app->put(
-    '/order/update',
+    '/api/order/update',
     function () use ($mongo, $util) {
         $rawData = $this->request->getJsonRawBody();
         $update = $util->prepareOrderUpdate(json_decode(json_encode($rawData), true));
@@ -270,7 +269,7 @@ $app->put(
 );
 
 $app->get(
-    '/order/get',
+    '/api/order/get',
     function () use ($mongo) {
         $response = new Response();
         $response->setStatusCode(200, 'OK')
@@ -287,7 +286,7 @@ $app->get(
 );
 
 $app->get(
-    "/acl/build",
+    "/api/acl/build",
     function () use ($util) {
         $util->buildAcl();
     }
