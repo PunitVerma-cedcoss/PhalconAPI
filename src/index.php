@@ -209,11 +209,82 @@ $app->post(
     '/order/create',
     function () use ($mongo, $util) {
         $rawData = $this->request->getJsonRawBody();
-        
-        return "in orders";
+        $resp = $util->prepareOrder(json_decode(json_encode($rawData), true));
+        $response = new Response();
+        if ($resp !== true) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => $resp,
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        } else {
+            $response->setStatusCode(200, 'OK')
+                ->setJsonContent(
+                    [
+                        'status' => 200,
+                        'msg' => 'order has been created',
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        }
     }
 );
 
+$app->put(
+    '/order/update',
+    function () use ($mongo, $util) {
+        $rawData = $this->request->getJsonRawBody();
+        $update = $util->prepareOrderUpdate(json_decode(json_encode($rawData), true));
+        $response = new Response();
+        if ($update !== true) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => $update,
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        } else {
+            $response->setStatusCode(200, 'OK')
+                ->setJsonContent(
+                    [
+                        'status' => 200,
+                        'msg' => 'order has been updated',
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        }
+    }
+);
+
+$app->get(
+    '/order/get',
+    function () use ($mongo) {
+        $response = new Response();
+        $response->setStatusCode(200, 'OK')
+            ->setJsonContent(
+                [
+                    'status' => 200,
+                    'data' => $mongo->read("orders", []),
+                ],
+                JSON_PRETTY_PRINT
+            );
+        if (!$response->isSent())
+            $response->Send();
+    }
+);
 
 $app->get(
     "/acl/build",

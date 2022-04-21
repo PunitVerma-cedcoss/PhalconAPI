@@ -54,4 +54,9 @@ class MongoComponent extends Injectable
         $data = $this->mongo->$collection->aggregate($data);
         return $data->toArray();
     }
+    public function update($collection, $id, $data)
+    {
+        $data = $this->mongo->$collection->updateOne($id, $data);
+        return $data;
+    }
 }
