@@ -6,9 +6,13 @@ use Phalcon\Http\Response;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Acl\Adapter\Memory;
 
 // requiring vendor autoload 🍫
 require 'vendor/autoload.php';
+
+define('BASE_PATH', dirname(__DIR__));
+define('APP_PATH', BASE_PATH . '/storage');
 
 //setting container
 $container = new FactoryDefault();
@@ -183,12 +187,15 @@ $app->get(
 $app->get(
     '/auth/token',
     function () use ($jwt) {
+        $role = $this->request->getQuery()["role"] ?? "guest";
         $response = new Response();
         $response->setStatusCode(200, 'OK')
             ->setJsonContent(
                 [
                     'status' => 200,
-                    'bearer' => $jwt->getJwtToken()
+                    'role' => $role,
+                    'bearer' => $jwt->getJwtToken($role),
+                    'exp' => strtotime("+1 hour")
                 ],
                 JSON_PRETTY_PRINT
             );
@@ -197,12 +204,31 @@ $app->get(
     }
 );
 
+// orders routes------------------------->> 
+$app->post(
+    '/order/create',
+    function () use ($mongo, $util) {
+        $rawData = $this->request->getJsonRawBody();
+        
+        return "in orders";
+    }
+);
+
+
+$app->get(
+    "/acl/build",
+    function () use ($util) {
+        $util->buildAcl();
+    }
+);
+
+
+// -----base case--------------
 $app->notFound(
     function () {
         return "not found";
     }
 );
-
 
 $app->handle(
     $_SERVER["REQUEST_URI"]

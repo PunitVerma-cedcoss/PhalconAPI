@@ -42,6 +42,13 @@ class MongoComponent extends Injectable
         $data = $this->mongo->$collection->insertOne($data);
         return $data->getInsertedId();
     }
+    /**
+     * aggregates data, u know that stuff
+     *
+     * @param [type] $collection
+     * @param [type] $data
+     * @return array
+     */
     public function aggregate($collection, $data)
     {
         $data = $this->mongo->$collection->aggregate($data);

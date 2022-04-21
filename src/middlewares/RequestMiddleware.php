@@ -14,9 +14,9 @@ class RequestMiddleware implements MiddlewareInterface
         Micro $application
     ) {
         $util = new \Api\Component\UtilsComponent();
-        if ($application->request->getQuery()['_url'] != '/auth/token/' && $application->request->getQuery()['_url'] != '/') {
+        if ($application->request->getQuery()['_url'] != '/auth/token' && $application->request->getQuery()['_url'] != '/') {
             // 🏁
-            $resp = $util->checkToken();
+            $resp = $util->checkTokenAndAcl();
             // 🏁
             if (!$resp)
                 die;

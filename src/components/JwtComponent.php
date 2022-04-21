@@ -15,7 +15,7 @@ class JwtComponent
         $payload = array(
             "iss" => "http://example.org",
             "aud" => "http://example.com",
-            "role" => "guest",
+            "role" => $role,
             "iat" => $now->getTimestamp(),
             "nbf" => $now->modify('-1 minute')->getTimestamp(),
             "exp" => $now->modify('+1 hour')->getTimestamp()
@@ -29,9 +29,9 @@ class JwtComponent
         $key = "example_key";
         try {
             $decoded = JWT::decode($token, new Key($key, 'HS512'));
-            return true;
+            return ['isValid' => true, 'role' => $decoded->role];
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return ['isValid' => false, 'msg' => $e->getMessage()];
         }
     }
 }
