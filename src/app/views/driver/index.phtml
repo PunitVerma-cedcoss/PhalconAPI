@@ -44,11 +44,50 @@
             </label>
         </form>
     </div>
+    <div class="view-product w-screen h-screen flex flex-col items-center justify-center absolute hidden bg-gray-100">
+    </div>
+    <div class="update-product w-screen h-screen flex flex-col items-center justify-center absolute hidden bg-gray-100">
+        <form action="#" method="post" class="bg-white p-3 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <label for="name" class="my-2">
+                <input type="text" name="name" id="productName" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter product name" required>
+            </label>
+            <label for="productPrice" class="my-2">
+                <input type="text" name="productPrice" id="productPrice" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter product price" required>
+            </label>
+            <label for="productStock" class="my-2">
+                <input type="text" name="productStock" id="productStock" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full focus:outline-0" placeholder="enter product stock" required>
+            </label>
+            <label for="btn" class="my-2 w-full">
+                <input type="submit" value="update" name="btn" id="updateProduct" class="p-2 w-full border-0 text-white bg-rose-500 shadow-lg rounded-full updateOrder cursor-pointer hover:bg-rose-600">
+            </label>
+        </form>
+    </div>
+    <div class="create-product w-screen h-screen flex flex-col items-center justify-center absolute hidden bg-gray-100">
+        <form action="#" method="post" class="bg-white p-3 rounded-lg shadow-lg flex flex-col items-center justify-center">
+            <label for="name" class="my-2">
+                <input type="text" name="name" id="createProductName" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter product name" required>
+            </label>
+            <label for="category" class="my-2">
+                <input type="text" name="category" id="createProductcategory" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter product category" required>
+            </label>
+            <label for="productPrice" class="my-2">
+                <input type="text" name="productPrice" id="createProductPrice" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full" placeholder="enter product price" required>
+            </label>
+            <label for="productStock" class="my-2">
+                <input type="text" name="productStock" id="createProductStock" class="border border-gray-300 bg-gray-100 shadow-inner rounded-full focus:outline-0" placeholder="enter product stock" required>
+            </label>
+            <label for="btn" class="my-2 w-full">
+                <input type="submit" value="create" name="btn" id="createProduct" class="p-2 w-full border-0 text-white bg-rose-500 shadow-lg rounded-full updateOrder cursor-pointer hover:bg-rose-600">
+            </label>
+        </form>
+    </div>
 </div>
 <div class="noti fixed m-3 bottom-0 right-0">
     <div class="nav fixed top-0 right-0 m-4">
         <button class="viewTab bg-rose-500 m-2 p-2 rounded-lg text-white shadow-lg">Add orders</button>
         <button class="addTab bg-rose-500 m-2 p-2 rounded-lg text-white shadow-lg">View order</button>
+        <button class="viewProducts bg-rose-500 m-2 p-2 rounded-lg text-white shadow-lg">View Products</button>
+        <button class="createProducts bg-rose-500 m-2 p-2 rounded-lg text-white shadow-lg">Add Product</button>
     </div>
 </div>
 <?php

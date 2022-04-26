@@ -31,6 +31,7 @@ $app = new Micro($container);
 $eventsManager = new EventsManager();
 
 $eventsManager->attach('micro:beforeExecuteRoute', new \Api\Middleware\RequestMiddleware());
+$eventsManager->attach('ProductsMiddleware', new \Api\Middleware\ProductsMiddleware());
 $app->setEventsManager($eventsManager);
 
 
@@ -77,6 +78,8 @@ $app->get(
         ';
     }
 );
+
+//products routes----------->
 
 $app->get(
     '/api/products/get',
@@ -183,8 +186,102 @@ $app->get(
     }
 );
 
+$app->put(
+    "/api/products/update",
+    function () use ($util, $eventsManager) {
+        $response = new Response();
+        try {
+            $rawData = $this->request->getJsonRawBody();
+        } catch (\Exception $e) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => "data not provided",
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+            die;
+        }
+        $resp = $util->prepareProductUpdate(json_decode(json_encode($rawData), true));
+        if ($resp !== true) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => $resp,
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        } else {
+            $x = $eventsManager->fire('ProductsMiddleware:afterUpdate', $this);
+            $response->setStatusCode(200, 'OK')
+                ->setJsonContent(
+                    [
+                        'status' => 200,
+                        'msg' => 'product has been updated',
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        }
+    }
+);
+
+$app->post(
+    "/api/products/create",
+    function () use ($util, $eventsManager) {
+        $response = new Response();
+        try {
+            $rawData = $this->request->getJsonRawBody();
+        } catch (\Exception $e) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => "data not provided",
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+            die;
+        }
+        $resp = $util->prepareProductCreate(json_decode(json_encode($rawData), true));
+        if ($resp !== true) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => $resp,
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        } else {
+            $x = $eventsManager->fire('ProductsMiddleware:afterCreate', $this);
+            $response->setStatusCode(200, 'OK')
+                ->setJsonContent(
+                    [
+                        'status' => 200,
+                        'msg' => 'product has been created',
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        }
+    }
+);
+
 $app->get(
-    'api/auth/token',
+    '/api/auth/token',
     function () use ($jwt) {
         $role = $this->request->getQuery()["role"] ?? "guest";
         $response = new Response();
@@ -202,6 +299,8 @@ $app->get(
             $response->Send();
     }
 );
+
+
 
 // orders routes------------------------->> 
 $app->post(
@@ -289,6 +388,53 @@ $app->get(
     "/api/acl/build",
     function () use ($util) {
         $util->buildAcl();
+    }
+);
+
+// -----register web-hooks--------------
+$app->post(
+    "/api/webhooks/create",
+    function () use ($util) {
+        $response = new Response();
+        try {
+            $rawData = $this->request->getJsonRawBody();
+        } catch (\Exception $e) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => "data not found",
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+            die;
+        }
+        $resp = $util->prepareHook(json_decode(json_encode($rawData), true));
+        if ($resp !== true) {
+            $response->setStatusCode(403, 'BAD REQUEST')
+                ->setJsonContent(
+                    [
+                        'status' => 403,
+                        'msg' => $resp,
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        } else {
+            $response->setStatusCode(200, 'OK')
+                ->setJsonContent(
+                    [
+                        'status' => 200,
+                        'msg' => 'your webhook has been registered',
+                    ],
+                    JSON_PRETTY_PRINT
+                );
+            if (!$response->isSent())
+                $response->Send();
+        }
     }
 );
 

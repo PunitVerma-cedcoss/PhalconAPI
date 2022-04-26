@@ -1,0 +1,28 @@
+<div class="w-screen h-screen flex justify-center items-center">
+    <table>
+        <thead>
+            <tr>
+                <th class="p-3 border">Product Name</th>
+                <th class="p-3 border">Product Category</th>
+                <th class="p-3 border">Product Price</th>
+                <th class="p-3 border">Product Stock</th>
+                <th class="p-3 border">Product Buy</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($data as $doc) {
+            ?>
+                <tr class="odd:bg-gray-100 even:bg-white">
+                    <td class="p-3 border"><?php echo $doc["product name"] ?></td>
+                    <td class="p-3 border"><?php echo $doc["category name"] ?></td>
+                    <td class="p-3 border"><?php echo $doc["product price"] ?></td>
+                    <td class="p-3 border"><?php echo $doc["product stock"] ?></td>
+                    <td class="p-3 border"><button class="text-white px-3 py-2 rounded-lg <?php echo $doc["product stock"] == 0 ? "bg-red-500" : "bg-green-500" ?>"><?php echo $doc["product stock"] == 0 ? "out of stock" : "buy now" ?></button></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </tbody>
+    </table>
+</div>

@@ -253,4 +253,71 @@ class UtilsComponent extends Injectable
             return ["order id is not valid"];
         }
     }
+    public function prepareHook($data)
+    {
+        $msg = [];
+        if (!isset($data["name"])) {
+            array_push($msg, "webhook name is required");
+        }
+        if (!isset($data["event"])) {
+            array_push($msg, "event name is required");
+        }
+        if (!isset($data["key"])) {
+            array_push($msg, "key is required");
+        }
+        if (!isset($data["url"])) {
+            array_push($msg, "url is required");
+        }
+        if (count($msg) > 0) {
+            return $msg;
+        } else {
+            //push into db
+            $mongo = new \Api\Component\MongoComponent();
+            $mongo->insert("hooks", $data);
+            return true;
+        }
+    }
+    public function prepareProductUpdate($data)
+    {
+        $msg = [];
+        if (!isset($data["productId"])) {
+            array_push($msg, "ProductId is required");
+        }
+        if (!isset($data["data"])) {
+            array_push($msg, "data is required");
+        }
+        if (count($msg) > 0) {
+            return $msg;
+        } else {
+            //push into db
+            $mongo = new \Api\Component\MongoComponent();
+            // check if product id is correct
+            try {
+                $resp = $mongo->read("products", ["_id" => new \MongoDB\BSON\ObjectID($data["productId"])]);
+                if (count($resp)) {
+                    $mongo->update(
+                        "products",
+                        ["_id" => new \MongoDB\BSON\ObjectID($data["productId"])],
+                        [
+                            '$set' => $data["data"]
+                        ]
+                    );
+
+                    return true;
+                } else {
+                    return ["some error occured"];
+                }
+            } catch (\Exception $e) {
+                return ["order id is not valid"];
+            }
+            return true;
+        }
+    }
+    public function prepareProductCreate($data)
+    {
+        //push into db
+        $mongo = new \Api\Component\MongoComponent();
+        $mongo->insert("products", $data);
+        return true;
+    }
 }

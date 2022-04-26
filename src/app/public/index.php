@@ -58,7 +58,7 @@ $container->set(
     'mongo',
     function () {
         $mongo = new \MongoDB\Client("mongodb://mongo5", array("username" => "root", "password" => "password123"));
-        return $mongo->test;
+        return $mongo->frontend;
     },
     true
 );
