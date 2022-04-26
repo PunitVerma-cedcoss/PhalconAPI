@@ -7,10 +7,16 @@ class DriverController extends Controller
 {
     public function indexAction()
     {
+        $toolbar = new \Fabfuel\Prophiler\Toolbar($this->profiler);
+        $toolbar->addDataCollector(new \Fabfuel\Prophiler\DataCollector\Request());
+        $this->view->toolbar = $toolbar->render();
         $this->assets->addJs("/js/main.js");
     }
     public function productsAction()
     {
+        $toolbar = new \Fabfuel\Prophiler\Toolbar($this->profiler);
+        $toolbar->addDataCollector(new \Fabfuel\Prophiler\DataCollector\Request());
+        $this->view->toolbar = $toolbar->render();
         $data = $this->mongo->products->find();
         $this->view->data = $data->toArray();
     }

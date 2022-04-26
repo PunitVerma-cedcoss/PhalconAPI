@@ -2,6 +2,7 @@
     "require": {
         "mongodb/mongodb": "^1.12",
         "firebase/php-jwt": "^6.1",
-        "guzzlehttp/guzzle": "^7.0"
+        "guzzlehttp/guzzle": "^7.0",
+        "fabfuel/prophiler": "^1.6"
     }
 }

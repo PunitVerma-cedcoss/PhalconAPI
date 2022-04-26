@@ -1,4 +1,5 @@
 <?php
+(new \Phalcon\Debug())->listen();
 // print_r(apache_get_modules());
 // echo "<pre>"; print_r($_SERVER); die;
 // $_SERVER["REQUEST_URI"] = str_replace("/phalt/","/",$_SERVER["REQUEST_URI"]);
@@ -50,6 +51,15 @@ $container->set(
     }
 );
 
+$container->set(
+    'profiler',
+    function () {
+        $profiler = new \Fabfuel\Prophiler\Profiler();
+        return $profiler;
+    }
+);
+
+
 $application = new Application($container);
 
 
@@ -63,13 +73,19 @@ $container->set(
     true
 );
 
-try {
-    // Handle the request
-    $response = $application->handle(
-        $_SERVER["REQUEST_URI"]
-    );
+$response = $application->handle(
+    $_SERVER["REQUEST_URI"]
+);
 
-    $response->send();
-} catch (\Exception $e) {
-    echo 'Exception: ', $e->getMessage();
-}
+$response->send();
+
+// try {
+//     // Handle the request
+//     $response = $application->handle(
+//         $_SERVER["REQUEST_URI"]
+//     );
+
+//     $response->send();
+// } catch (\Exception $e) {
+//     echo 'Exception: ', $e->getMessage();
+// }
