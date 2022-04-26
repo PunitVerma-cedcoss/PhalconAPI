@@ -18,7 +18,7 @@ class ProductsMiddleware
     ) {
         $mongo = new \Api\Component\MongoComponent();
         $data = $mongo->read("hooks", [
-            "event" => "Product.create"
+            "event" => "Product.update"
         ], 0, [
             "url" => 1,
             "_id" => 0
@@ -41,7 +41,10 @@ class ProductsMiddleware
                 // print_r(substr($s, 3, strlen($s) - 8));
                 echo $e->getMessage();
             }
+            print_r($url->url);
+            echo "\n";
         }
+        die;
     }
     public function afterCreate(
         Event $event,
@@ -52,6 +55,7 @@ class ProductsMiddleware
             "event" => "Product.create"
         ], 0, [
             "url" => 1,
+            "name" => 1,
             "_id" => 0
         ]);
         $client = new Client();
@@ -67,6 +71,8 @@ class ProductsMiddleware
                     ]
                 );
                 $response = json_decode($response->getBody()->getContents(), true);
+                print_r($url->name);
+                die;
             } catch (ClientException $e) {
                 // $s = explode("message", $e->getMessage())[1];
                 // print_r(substr($s, 3, strlen($s) - 8));

@@ -28,12 +28,16 @@ class DriverController extends Controller
             foreach (json_decode($this->request->getPost("data"), true) as $o) {
                 $this->mongo->products->insertOne(
                     [
-                        "product name" => $o["product name"],
-                        "category name" => $o["category name"],
-                        "product price" => $o["product price"],
-                        "product stock" => $o["product stock"],
-                        "variations" => $o["variations"],
-                        "metas" => $o["metas"],
+                        "product name" => $o["name"],
+                        "category name" => $o["categoryName"],
+                        "product price" => $o["normalPrice"],
+                        "product stock" => $o["stock"],
+                        // "product name" => $o["product name"],
+                        // "category name" => $o["category name"],
+                        // "product price" => $o["product price"],
+                        // "product stock" => $o["product stock"],
+                        // "variations" => $o["variations"],
+                        // "metas" => $o["metas"],
                     ],
                 );
             }
